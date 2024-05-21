@@ -11,15 +11,19 @@ num_epochs = 30
 batch_size = 100
 learning_rate = 0.001
 
+if torch.cuda.is_available():
+    device = torch.device("cuda:0")  # 如果有GPU，则使用第一个GPU
+else:
+    device = torch.device("cpu")  # 否则使用CPU
 def main():
-    cnn = CNN()
+    cnn = CNN().to(device)
     cnn.train()
     print('init net')
     criterion = nn.MultiLabelSoftMarginLoss()
     optimizer = torch.optim.Adam(cnn.parameters(), lr=learning_rate)
 
     # Train the Model
-    train_dataloader = my_dataset.get_train_data_loader()
+    train_dataloader = my_dataset.get_train_data_loader().to(device)
     if os.path.exists("./model.pkl"):
         # 如果模型文件存在，则加载模型
         print("Model found, loading...")
@@ -32,7 +36,7 @@ def main():
         for i, (images, labels) in enumerate(train_dataloader):
             images = Variable(images)
             labels = Variable(labels.float())
-            predict_labels = cnn(images)
+            predict_labels = cnn(images).to(device)
             # print(predict_labels.type)
             # print(labels.type)
             loss = criterion(predict_labels, labels)
