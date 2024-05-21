@@ -10,8 +10,8 @@ ALL_CHAR_SET_LEN = len(ALL_CHAR_SET)
 MAX_CAPTCHA = 4
 
 # 图像大小
-IMAGE_HEIGHT = 60
-IMAGE_WIDTH = 160
+IMAGE_HEIGHT = 80
+IMAGE_WIDTH = 200
 
 TRAIN_DATASET_PATH = 'dataset' + os.path.sep + 'train'
 TEST_DATASET_PATH = 'dataset' + os.path.sep + 'test'
