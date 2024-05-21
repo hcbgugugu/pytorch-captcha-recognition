@@ -4,6 +4,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import my_dataset
 from captcha_cnn_model import CNN
+import os
 
 # Hyper Parameters
 num_epochs = 30
@@ -19,6 +20,14 @@ def main():
 
     # Train the Model
     train_dataloader = my_dataset.get_train_data_loader()
+    if os.path.exists("./model.pkl"):
+        # 如果模型文件存在，则加载模型
+        print("Model found, loading...")
+        cnn = torch.load("./model.pkl")  # 假设model是一个可以直接加载的PyTorch模型
+        cnn.train() # 设置模型为评估模式（对于训练好的模型进行推理）
+        # 如果你的模型是在多GPU上训练的，并且你现在在单个GPU或CPU上运行，你可能还需要指定map_location参数
+        # 例如：model = torch.load(model_path, map_location=torch.device('cpu'))
+
     for epoch in range(num_epochs):
         for i, (images, labels) in enumerate(train_dataloader):
             images = Variable(images)

@@ -30,7 +30,7 @@ class CNN(nn.Module):
             nn.ReLU())
         self.rfc = nn.Sequential(
             nn.Linear(1024, captcha_setting.MAX_CAPTCHA*captcha_setting.ALL_CHAR_SET_LEN),
-        )
+        )#类别数为4*所有字符数
 
     def forward(self, x):
         out = self.layer1(x)
